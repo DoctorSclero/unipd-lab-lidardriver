@@ -19,6 +19,9 @@ namespace lidar {
         this->buffer.reserve(BUFFER_DIM);
         this->buffer.resize(BUFFER_DIM);
     }
+
+    // TODO: copy & move constructor
+
     /**
      * Retrieves the oldest scan and removes it from the buffer
      * @author Diego Chiesurin
