@@ -21,9 +21,12 @@ namespace lidar {
     }
     /**
      * Retrieves the oldest scan and removes it from the buffer
+     * @author Diego Chiesurin
      */
-    std::vector<double> LidarDriver::get_scan() const {
-
+    std::vector<double> LidarDriver::get_scan() {
+        std::vector<double> res = this->buffer[start];
+        this->start = (this->start + 1) % BUFFER_DIM;
+        return res;
     }
     /**
      * Adds a new scan into the buffer, if full overwrites the oldest scan
