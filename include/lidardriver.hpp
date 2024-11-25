@@ -28,7 +28,7 @@ namespace lidar {
             /**
              * Retrieves the oldest scan and removes it from the buffer
              */
-            std::vector<double> get_scan() const;
+            std::vector<double> get_scan();
             /**
              * Adds a new scan into the buffer, if full overwrites the oldest scan
              * @param scan The new scan to add to the buffer
