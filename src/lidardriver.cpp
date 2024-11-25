@@ -9,9 +9,15 @@ namespace lidar {
     /**
      * Constructs the LidarDriver declaring the reading resolution
      * @param resolution The angle interval of the readings
+     * @author Pietro Ballarin
      */
     LidarDriver::LidarDriver(double resolution) {
-
+        this->stop = 0;
+        this->start = 0;
+        this->resolution = resolution;
+        this->buffer = std::vector<std::vector<double>>();
+        this->buffer.reserve(BUFFER_DIM);
+        this->buffer.resize(BUFFER_DIM);
     }
     /**
      * Retrieves the oldest scan and removes it from the buffer
