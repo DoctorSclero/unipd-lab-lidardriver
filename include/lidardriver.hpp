@@ -8,7 +8,7 @@
 namespace lidar {
     // The maximum buffer dimension of the lidar driver
     constexpr int BUFFER_DIM = 10;
-
+    
     /**
      * LidarDriver class used to manage the data of a lidar.
      * It uses an internal buffer managed by sliding window method.
@@ -17,9 +17,9 @@ namespace lidar {
         private:
             const double resolution;
 
-            std::vector<std::vector<double>> buffer = std::vector<std::vector<double>>();
+            std::vector<std::vector<double>> buffer;
             int start = 0;
-            int stop = 0;
+            int stop = 1;
 
         public:
             /**
@@ -46,14 +46,21 @@ namespace lidar {
              * @param angle The angle of the reading
              */
             double get_distance(const double angle) const;
+
             /**
              * Retrieves the latest scan of the buffer 
              */
-            std::vector<double> get_latest();
+            std::vector<double> get_latest() const;
+
             /**
              * Removes all the readings from the buffer.
              */
             void clear_buffer();
+
+            /**
+             * Determines whether the buffer is empty or not
+             */
+            bool empty() const;
     };
 
     /**

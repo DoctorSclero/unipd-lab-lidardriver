@@ -2,6 +2,14 @@
 #include <ctime>
 #include <iostream>
 
+/**
+ * Generates a random double bounded by min and max
+ * @param min, the lower bound
+ * @param max, the upper bound
+ * @return a random double between min and max
+ */
+double rand_double(double min, double max);
+
 int main(void) {
     // Initializing the random number generator
     srand(time(NULL));
@@ -18,7 +26,7 @@ int main(void) {
     for(int i = 0; i < numberOfScans; i++){
         std::vector<double> scan;
         for(int j = 0; j < numberOfReadings; j++){
-            scan.push_back(randDouble(0, 1));
+            scan.push_back(rand_double(0, 1));
         }
         ld.new_scan(scan);
     }
@@ -34,7 +42,7 @@ int main(void) {
         } 
     }
     // Printing the distance at a random angle
-    std::cout << ld.get_distance(randDouble(0, 1)) << std::endl;
+    std::cout << ld.get_distance(rand_double(0, 1)) << std::endl;
 
     // Printing the latest scan
     std::cout << ld << std::endl;
@@ -46,13 +54,7 @@ int main(void) {
     return 0;
 }
 
-/**
- * generates a random double bounded by min and max
- * @param min, the lower bound
- * @param max, the upper bound
- * @return a random double between min and max
- */
-double randDouble(double min, double max){
+double rand_double(double min, double max){
     double r = (double)rand() / RAND_MAX;
     return min + r * (max - min);
 }
