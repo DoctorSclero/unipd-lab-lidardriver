@@ -39,13 +39,17 @@ namespace lidar {
              * Adds a new scan into the buffer, if full overwrites the oldest scan
              * @param scan The new scan to add to the buffer
              */
-            void new_scan(std::vector<double> scan);
+            void new_scan(std::vector<double>& scan);
             /**
              * Retrieves the distance of an object at a given angle 
              * of the latest read.
              * @param angle The angle of the reading
              */
-            double get_distance(double angle) const;
+            double get_distance(const double angle) const;
+            /**
+             * Retrieves the latest scan of the buffer 
+             */
+            std::vector<double> get_latest();
             /**
              * Removes all the readings from the buffer.
              */

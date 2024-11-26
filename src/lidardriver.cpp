@@ -27,9 +27,11 @@ namespace lidar {
 
     /**
      * Retrieves the oldest scan and removes it from the buffer
+     * Throws "empty_lidar_driver" if the buffer is empty
      * @author Diego Chiesurin
      */
     std::vector<double> LidarDriver::get_scan() {
+        if(this->stop == this->start) throw std::logic_error("LidarDriver's buffer is empty");
         std::vector<double> res = this->buffer[start];
         this->start = (this->start + 1) % BUFFER_DIM;
         return res;
@@ -39,7 +41,7 @@ namespace lidar {
      * @param scan The new scan to add to the buffer
      * @author Pietro Ballarin
      */
-    void LidarDriver::new_scan(std::vector<double> scan) {
+    void LidarDriver::new_scan(std::vector<double>& scan) {
         scan.resize(180/resolution + 1, 0.0);
         if (this->stop == this->start) this->start = (this->start + 1) % BUFFER_DIM;
         this->buffer[this->stop] = scan;
@@ -48,10 +50,12 @@ namespace lidar {
     /**
      * Retrieves the distance of an object at a given angle
      * of the latest read.
+     * Throws "empty_lidar_driver" if the buffer is empty
      * @param angle The angle of the reading
      * @author Pietro Ballarin
      */ 
-    double LidarDriver::get_distance(double angle) const {
+    double LidarDriver::get_distance(const double angle) const {
+        if(this->stop == this->start) throw std::logic_error("LidarDriver's buffer is empty");
         return this->buffer[this->start].at(angle * this->resolution);
     }
 
@@ -64,7 +68,15 @@ namespace lidar {
         this->stop = 0;
     }
 
-    // TODO: elisa: get_latest
+    /**
+     * Returns the last scan captured by the driver
+     * Throws "empty_lidar_driver" if the buffer is empty
+     * @returns The latest scan
+     */
+    std::vector<double> LidarDriver::get_latest(){
+        if(this->stop == this->start) throw std::logic_error("LidarDriver's buffer is empty");
+        return this->buffer[this->stop];
+    }
     
     /******************************************************************
      * LidarDriver class helper functions
@@ -77,6 +89,15 @@ namespace lidar {
      * @author Elisa Chiarel
      */
     std::ostream& operator<<(std::ostream& os, LidarDriver& ld) {
+        std::vector<double> latest = ld.get_latest();
+        for(int i=0; i<latest.size(); i++) {
+            os << latest[i];
+            if (i == latest.size()-1) {
+                os << std::endl;
+            } else {
+                os << " ";
+            }
+        }
         return os;
     }
 }
