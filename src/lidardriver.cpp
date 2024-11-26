@@ -82,9 +82,7 @@ namespace lidar {
 
 
     bool LidarDriver::empty() const {
-        if(this->start == this-> stop-1)
-            return true;
-        return false;
+        return this->start == (this->stop-1)%BUFFER_DIM;
     }
     
     /******************************************************************
@@ -109,9 +107,4 @@ namespace lidar {
         }
         return os;
     }
-
-    void stream_scan(std::ostream& os, std::vector<double> scan) {
-
-    }
-
 }

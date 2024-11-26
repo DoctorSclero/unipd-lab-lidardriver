@@ -14,7 +14,7 @@ int main(void) {
     // Initializing the random number generator
     srand(time(NULL));
     // Initializing a LidarDriver
-    constexpr double RESOLUTION = 1.0; 
+    constexpr double RESOLUTION = 30.0; 
     lidar::LidarDriver ld = lidar::LidarDriver(RESOLUTION);
 
     // Scan length generator
