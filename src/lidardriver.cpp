@@ -1,5 +1,6 @@
 #include "lidardriver.hpp"
 
+
 namespace lidar {
 
     /*********************************************************
@@ -11,16 +12,18 @@ namespace lidar {
      * @param resolution The angle interval of the readings
      * @author Pietro Ballarin
      */
-    LidarDriver::LidarDriver(double resolution) {
-        this->stop = 0;
-        this->start = 0;
-        this->resolution = resolution;
-        this->buffer = std::vector<std::vector<double>>();
+    LidarDriver::LidarDriver(const double resolution) : resolution{resolution} {
         this->buffer.reserve(BUFFER_DIM);
         this->buffer.resize(BUFFER_DIM);
     }
 
-    // TODO: copy & move constructor
+    /**
+     * Constructs a LidarDriver by copy
+     * @param ld The LidarDriver instance to copy
+     * @author Diego Chiesurin
+     */
+    LidarDriver::LidarDriver(const LidarDriver& ld)
+        : stop{ld.stop}, start{ld.stop}, resolution{ld.resolution}, buffer{ld.buffer} {}
 
     /**
      * Retrieves the oldest scan and removes it from the buffer

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <ostream>
+#include <stdexcept>
 
 namespace lidar {
     // The maximum buffer dimension of the lidar driver
@@ -14,17 +15,22 @@ namespace lidar {
      */
     class LidarDriver {
         private:
-            int start;
-            int stop;
-            double resolution;
-            std::vector<std::vector<double>> buffer;
+            const double resolution;
+
+            std::vector<std::vector<double>> buffer = std::vector<std::vector<double>>();
+            int start = 0;
+            int stop = 0;
 
         public:
             /**
              * Constructs the LidarDriver declaring the reading resolution
              * @param resolution The angle interval of the readings
              */
-            LidarDriver(double resolution);
+            LidarDriver(const double resolution);
+            /**
+             * Constructs the LidarDriver by copy
+             */
+            LidarDriver(const LidarDriver& ld);
             /**
              * Retrieves the oldest scan and removes it from the buffer
              */
