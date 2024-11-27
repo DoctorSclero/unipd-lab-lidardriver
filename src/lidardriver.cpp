@@ -1,5 +1,4 @@
-#include "lidardriver.hpp"
-
+#include "lidardriver.h"
 
 namespace lidar {
 
@@ -32,7 +31,7 @@ namespace lidar {
      */
     std::vector<double> LidarDriver::get_scan() {
         if(this->empty()) throw std::logic_error("LidarDriver's buffer is empty");
-        std::vector<double> res = this->buffer[start];
+        std::vector<double> res = this->buffer[this->start];
         this->start = (this->start + 1) % BUFFER_DIM;
         return res;
     }
@@ -45,7 +44,7 @@ namespace lidar {
         // Padding/Cropping the buffer according to the excpected number of readings
         scan.resize(180/resolution + 1, 0.0);
         // Overwriting the last element if queue is full
-        if (this->stop == this->start) this->start = (this->start + 1) % BUFFER_DIM;
+        if ((this->stop+1)%BUFFER_DIM == this->start) this->start = (this->start + 1) % BUFFER_DIM;
         this->buffer[this->stop] = scan;
         this->stop = (this->stop + 1) % BUFFER_DIM;
     }
@@ -57,8 +56,8 @@ namespace lidar {
      * @author Pietro Ballarin
      */ 
     double LidarDriver::get_distance(const double angle) const {
-        if(this->empty()) throw std::logic_error("LidarDriver's buffer is empty");
-        return this->buffer[this->start].at(angle * this->resolution);
+        if(this->empty()) throw std::logic_error("LidarDriver's buffer is empty"); 
+        return this->buffer[this->start].at((int)(angle/this->resolution));
     }
 
     /**
@@ -73,16 +72,21 @@ namespace lidar {
     /**
      * Returns the last scan captured by the driver
      * @throws logic_error If the buffer is empty
+     * @author Elisa Chiarel
      * @returns The latest scan
      */
     std::vector<double> LidarDriver::get_latest() const {
         if(this->empty()) throw std::logic_error("LidarDriver's buffer is empty");
-        return this->buffer[this->stop];
+        return this->buffer[(this->stop-1)%BUFFER_DIM];
     }
 
-
+    /**
+     * Checks whether the container is empty or not
+     * @author Diego Chiesurin
+     * @return true if the container's empty
+     */
     bool LidarDriver::empty() const {
-        return this->start == (this->stop-1)%BUFFER_DIM;
+        return this->start == this->stop;
     }
     
     /******************************************************************
@@ -99,9 +103,7 @@ namespace lidar {
         std::vector<double> latest = ld.get_latest();
         for(int i=0; i<latest.size(); i++) {
             os << latest[i];
-            if (i == latest.size()-1) {
-                os << std::endl;
-            } else {
+            if (i != latest.size()-1) {
                 os << " ";
             }
         }

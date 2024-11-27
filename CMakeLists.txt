@@ -9,7 +9,7 @@ include_directories(include)
 
 add_library(
     lidardriver
-    include/lidardriver.hpp
+    include/lidardriver.h
     src/lidardriver.cpp
 )
 

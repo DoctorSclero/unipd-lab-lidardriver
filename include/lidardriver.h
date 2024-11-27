@@ -19,7 +19,7 @@ namespace lidar {
 
             std::vector<std::vector<double>> buffer;
             int start = 0;
-            int stop = 1;
+            int stop = 0;
 
         public:
             /**
