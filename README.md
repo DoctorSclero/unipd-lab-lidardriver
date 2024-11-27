@@ -58,8 +58,8 @@ particolare indaga le seguenti possibili scelte implementative con rispettivi va
         - L'utente deve preoccuparsi di un'informazione aggiuntiva
 
 Delle scelte progettuali, valutati i pro e i contro, si è scelto di procedere con le seguenti:
-    - Utilizzo degli standard vector
-    - Posizionamento della costante BUFFER_DIM in lidardriver.h
+- Utilizzo degli standard vector
+- Posizionamento della costante BUFFER_DIM in lidardriver.h
 si sono quindi formalizzate le scelte in un diagramma UML della classe.
 
 Dopodiché le componenti si sono concentrate nella scrittura del codice come descritto dalla specifica.
